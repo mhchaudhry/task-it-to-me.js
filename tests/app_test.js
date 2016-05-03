@@ -297,3 +297,38 @@ test('bug: app hangs at unknown command inside the tasks menu', function(test) {
 
   testStreams.mockInput(['a', 'Chores', 'e', 'Chores', 'jj', 'q']);
 });
+
+test('bug: no prompts while changing task name', function(test) {
+  setup();
+  test.plan(2);
+
+  app.run(function() {
+    test.match(testStreams.plainOutput(), "Enter a task name:");
+    test.match(testStreams.plainOutput(), "Enter a new task name:");
+  });
+
+  testStreams.mockInput(['a', 'Chores', 'e', 'Chores', 'a', 'Task', 'e', 'Task', 'TaskNew', 'q']);
+});
+
+test('bug: no prompts while deleting task name', function(test) {
+  setup();
+  test.plan(1);
+
+  app.run(function() {
+    test.match(testStreams.plainOutput(), "Enter a task name:");
+  });
+
+  testStreams.mockInput(['a', 'Chores', 'e', 'Chores', 'a', 'Task', 'd', 'Task', 'q']);
+});
+
+test('bug: no prompts while finishing task', function(test) {
+  setup();
+  test.plan(1);
+
+  app.run(function() {
+    test.match(testStreams.plainOutput(), "Enter a task name:");
+  });
+
+  testStreams.mockInput(['a', 'Chores', 'e', 'Chores', 'a', 'Task', 'f', 'Task', 'q']);
+});
+
