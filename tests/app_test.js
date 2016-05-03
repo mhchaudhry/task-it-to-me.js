@@ -275,3 +275,15 @@ test('going back to the projects menu', function(test) {
 
   testStreams.mockInput(['a', 'House work', 'e', 'House work', 'b', 'ls', 'q']);
 });
+
+test('bug: application hangs on unknown command', function(test) {
+  setup();
+  test.plan(1);
+
+  app.run(function() {
+    test.match(testStreams.plainOutput(), "Unknown command: 'jj'");
+  });
+
+  testStreams.mockInput(['jj', 'q']);
+});
+
